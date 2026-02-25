@@ -1,4 +1,4 @@
-//import java.util.Scanner;
+import java.util.Scanner;
 
 public class TemperatureConverter {
 
@@ -16,13 +16,16 @@ public class TemperatureConverter {
     }
 
     public static void main(String[] args) {
-        double input = 2.5;
+        Scanner input = new java.util.Scanner(System.in);
 
+        System.out.print("Enter a temperature: ");
+        double a = input.nextDouble();
 
-        double fahrenheit = celsiusToFahrenheit(input);
-        double celsius = fahrenheitToCelsius(input);
+        double fahrenheit = celsiusToFahrenheit(a);
+        double celsius = fahrenheitToCelsius(a);
 
         System.out.println("In F: " + fahrenheit + " in C: " + celsius);
 
+        input.close();
     }
 }
