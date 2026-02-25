@@ -7,7 +7,9 @@
             stages {
                 stage('check') {
                     steps {
-                     git 'https://github.com/hyoneekim/spring26_SEP1_assignments.git'
+                    git branch: 'main',
+                     url: 'https://github.com/hyoneekim/spring26_SEP1_assignments.git',
+                     credentialsId: 'hyoneekim'
                     }
             }
                 stage('build') {
