@@ -33,6 +33,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>opt1</finalName>
         <plugins>
             <!-- JaCoCo plugin for code coverage -->
             <plugin>
