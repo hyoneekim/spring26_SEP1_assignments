@@ -38,6 +38,12 @@
                     jacoco()
                 }
             }
+            stage('Check Docker') {
+                steps {
+                    sh 'which docker'
+                    sh 'docker --version'
+                }
+            }
             stage('Build Docker image'){
             steps {
               script {
