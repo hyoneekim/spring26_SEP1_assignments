@@ -71,7 +71,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>TimeCal</mainClass>
+                            <mainClass>TemperatureConverter</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
