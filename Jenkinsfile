@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
-        DOCKERHUB_REPO = 'hyoneekim/temperature-app'
+        DOCKERHUB_REPO = 'hyoneekim/opt1'
         DOCKER_IMAGE_TAG = "ci-${BUILD_NUMBER}"
         DOCKERHUB_CREDENTIALS_ID = 'docker_hub'
     }
