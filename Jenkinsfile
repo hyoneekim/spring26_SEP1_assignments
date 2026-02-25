@@ -5,8 +5,8 @@
             }
         environment {
               PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
-              DOCKERHUB_CREDENTIALS_ID = 'hyoneekim'
-              DOCKERHUB_REPO = 'hyoneekim/temperature-app'
+              DOCKERHUB_CREDENTIALS_ID = 'docker_hub'
+              DOCKERHUB_REPO = 'hyoneekim/opt1_2026'
               DOCKER_IMAGE_TAG = 'latest'
           }
 
