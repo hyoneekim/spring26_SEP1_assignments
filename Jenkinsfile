@@ -5,7 +5,7 @@
             }
         environment {
               PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
-              DOCKERHUB_CREDENTIALS_ID = 'docker_hub'
+              DOCKERHUB_CREDENTIALS_ID = 'hyoneekim'
               DOCKERHUB_REPO = 'hyoneekim/temperature-app'
               DOCKER_IMAGE_TAG = 'latest'
           }
@@ -14,8 +14,7 @@
                 stage('check') {
                     steps {
                     git branch: 'main',
-                     url: 'https://github.com/hyoneekim/spring26_SEP1_assignments.git',
-                     credentialsId: '53ab450a-c80b-4484-aeb4-29504106f78b'
+                     url: 'https://github.com/hyoneekim/spring26_SEP1_assignments.git'
                     }
             }
                 stage('build') {
