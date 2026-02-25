@@ -12,4 +12,15 @@ public class TemperatureConverter {
     static boolean isExtremeTemperatureInCelsius(double temperature) {
         return temperature < -40 || temperature > 50;
     }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int a = input.nextInt();
+        double fahrenheit = fahrenheitToCelsius(a);
+        double celsius = celsiusToFahrenheit(a);
+        System.out.println("In F: " + fahrenheit + "in C: " + celsius);
+
+
+
+    }
 }
