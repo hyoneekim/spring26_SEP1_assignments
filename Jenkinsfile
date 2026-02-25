@@ -1,69 +1,35 @@
-    pipeline {
-        agent any
-        tools{
-            maven '3.9.12'
-            }
-        environment {
-              PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
-              DOCKERHUB_CREDENTIALS_ID = 'docker_hub'
-              DOCKERHUB_REPO = 'hyoneekim/opt1_2026'
-              DOCKER_IMAGE_TAG = 'latest'
-          }
+pipeline {
+    agent any
 
-            stages {
-                stage('check') {
-                    steps {
-                    git branch: 'main',
-                     url: 'https://github.com/hyoneekim/spring26_SEP1_assignments.git'
-                    }
-            }
-                stage('build') {
-                    steps {
-                     sh 'mvn install'
-                    }
-            }
-                stage('report') {
-                    steps {
-                    sh 'mvn jacoco:report'
+    environment {
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+        DOCKERHUB_REPO = 'hyoneekim/temperature-app'
+        DOCKER_IMAGE_TAG = "ci-${BUILD_NUMBER}"
+        DOCKERHUB_CREDENTIALS_ID = 'docker_hub'
+    }
 
-                    }
-            }
-    stage('Publish Test Results') {
-                steps {
-                    junit '**/target/surefire-reports/*.xml'
-                }
-            }
-            stage('Publish Coverage Report') {
-                steps {
-                    jacoco()
-                }
-            }
-            stage('Check Docker') {
-                steps {
-                    sh 'which docker'
-                    sh 'docker --version'
-                }
-            }
-            stage('Build Docker image'){
+    stages {
+        stage('Build Docker Image') {
             steps {
-              script {
-                  docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
-              }
+                script {
+                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
+                }
             }
+        }
 
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: "${DOCKERHUB_CREDENTIALS_ID}",
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh '''
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
+                    '''
+                }
             }
-            stage('Push Docker Image to Dock Hub'){
-            steps{
-              script {
-                  docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
-                      docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").push()
-                  }
-            }
-            }
-            }
-            }
-            }
-
-
-
-
+        }
+    }
+}
