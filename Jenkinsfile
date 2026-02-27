@@ -39,18 +39,15 @@ pipeline {
                 stage('Build Docker image'){
                 steps {
                   script {
-                      docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
+                      sh '''
+                      docker buildx build \
+                                        --platform linux/amd64,linux/arm64 \
+                                        -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
+                      '''
                   }
                 }
 
                 }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
-                }
-            }
-        }
 
         stage('Push Docker Image') {
             steps {
