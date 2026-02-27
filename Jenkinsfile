@@ -36,30 +36,30 @@ pipeline {
                         jacoco()
                     }
                 }
-                stage('Build Docker image'){
-                steps {
-                  script {
-                      sh '''
-                      docker build --platform linux/amd64,linux/arm64 -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
-                      '''
-                  }
-                }
+ stage('Build Docker image') {
+     steps {
+         sh '''
+         docker build \
+           --platform linux/amd64 \
+           -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} \
+           .
+         '''
+     }
+ }
 
-                }
-
-        stage('Push Docker Image') {
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: "${DOCKERHUB_CREDENTIALS_ID}",
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-                    sh '''
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
-                    '''
-                }
-            }
-        }
+ stage('Push Docker Image') {
+     steps {
+         withCredentials([usernamePassword(
+             credentialsId: "${DOCKERHUB_CREDENTIALS_ID}",
+             usernameVariable: 'DOCKER_USER',
+             passwordVariable: 'DOCKER_PASS'
+         )]) {
+             sh '''
+                 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                 docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}
+             '''
+         }
+     }
+ }
     }
 }
